@@ -8,7 +8,6 @@ repositories {
     mavenCentral()
 }
 
-
 dependencies {
     implementation 'io.rest-assured:rest-assured:5.1.1'
     testImplementation platform('org.junit:junit-bom:5.10.0')
@@ -23,9 +22,20 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
     testImplementation 'org.hamcrest:hamcrest:2.2'
+    implementation 'ch.qos.logback:logback-classic:1.5.10'
+    implementation 'ch.qos.logback:logback-core:1.5.10'
+    compileOnly 'org.slf4j:slf4j-api:2.0.10'
 
 }
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+
+    test.outputs.upToDateWhen {false}
+
 }

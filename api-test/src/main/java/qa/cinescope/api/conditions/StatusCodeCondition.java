@@ -12,4 +12,9 @@ public class StatusCodeCondition implements Condition{
         response.then().assertThat().statusCode(statusCode);
 
     }
+
+    @Override
+    public String toString() {
+        return "Status Code " + statusCode ;
+    }
 }

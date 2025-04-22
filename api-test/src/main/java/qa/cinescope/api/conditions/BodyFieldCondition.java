@@ -15,4 +15,10 @@ public class BodyFieldCondition implements Condition{
         response.then().assertThat().body(jsonPath,matcher);
 
     }
+
+    @Override
+    public String toString() {
+        return "Body Field "  + jsonPath + '\'' +
+                 matcher ;
+    }
 }
