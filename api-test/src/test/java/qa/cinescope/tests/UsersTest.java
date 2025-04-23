@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import qa.cinescope.api.conditions.Conditions;
 import qa.cinescope.api.payloads.UserPayload;
 import qa.cinescope.api.services.auth.UserApiService;
-
-
+import qa.cinescope.api.services.payment.PaymentService;
 
 
 public class UsersTest {
     private final UserApiService userApiService = new UserApiService();
+    private final PaymentService paymentService = new PaymentService();
 
     @BeforeEach
     public void setUp() {
@@ -38,12 +38,12 @@ public class UsersTest {
     @Test
     public void testLoginUser() {
         //given
-        UserPayload user = new UserPayload()
+       /* UserPayload user = new UserPayload()
                 .email("mail1@mail.com")
-                .password("112233Qq");
+                .password("112233Qq");*/
 
         //expect
-        userApiService.loginUser(user)
+        userApiService.loginUser(userApiService.credentialLoginUser())
                 .shouldHave(Conditions.statusCode(201));
     }
     @Test
@@ -60,5 +60,9 @@ public class UsersTest {
     @Test
     public void testConfirmEmail(){
         userApiService.confirmEmail();
+    }
+    @Test
+    public void testCreatePayment(){
+        paymentService.createPayment();
     }
 }

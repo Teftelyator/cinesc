@@ -2,10 +2,7 @@ package qa.cinescope.api.services.auth;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import org.apache.commons.lang3.RandomStringUtils;
 import qa.cinescope.api.assertions.AssertableResponse;
 import qa.cinescope.api.payloads.UserPayload;
 
@@ -18,12 +15,22 @@ public class UserApiService extends ApiService {
                 .when().log().all()
                 .post("/register"));
     }
+
     public AssertableResponse loginUser(UserPayload user) {
-        return  new AssertableResponse( setup()
+        return new AssertableResponse(setup()
                 .body(user)
                 .when()
                 .post("/login"));
     }
+
+    public UserPayload credentialLoginUser(){
+        UserPayload user = new UserPayload()
+                .fullName("vasya")//(RandomStringUtils.randomAlphanumeric(6))
+                .email("mail1@mail.com")
+                .password("112233Qq");
+        return user;
+    }
+
     public void logoutUser() {
         RestAssured
                 .when()
@@ -32,34 +39,30 @@ public class UserApiService extends ApiService {
     }
 
     public String extractTokenUser() {
-        UserPayload user = new UserPayload()
-                .fullName("vasya")//(RandomStringUtils.randomAlphanumeric(6))
-                .email("mail1@mail.com")
-                .password("112233Qq");
         Response response = RestAssured.given()
                 .baseUri(baseURI)
                 .contentType(ContentType.JSON)
-                .body(user)
+                .body(credentialLoginUser())
                 .when().log().all()
                 .post("/login");
-response.then().log().all();
+        response.then().log().all();
 
         return response.jsonPath().getString("accessToken");
     }
 
-    public void confirmEmail(){
+    public void confirmEmail() {
         RestAssured.given()
                 .baseUri(baseURI)
-                .pathParam("Authorization", "Bearer " + extractTokenUser())
+                .headers("Authorization", "Bearer " + extractTokenUser())
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/confirm")
                 .then().log().all();
     }
 
-    public void refresh(){
+    public void refresh() {
 
-        System.out.println("токен тута"+extractTokenUser());
+        System.out.println("токен тута" + extractTokenUser());
         RestAssured.given()
                 .baseUri(baseURI)
                 .header("Authorization", "Bearer " + extractTokenUser())
