@@ -1,2 +1,5 @@
-package qa.cinescope.ui;public class BasePage {
+package qa.cinescope.ui;
+
+public class BasePage {
+
 }

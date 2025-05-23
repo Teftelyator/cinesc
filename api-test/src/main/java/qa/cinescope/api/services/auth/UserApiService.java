@@ -50,48 +50,39 @@ public class UserApiService extends ApiService {
         return response.jsonPath().getString("accessToken");
     }
 
+    public String extractIdUser(){
+        Response idUser = RestAssured.given()
+                .baseUri(baseURI)
+                .contentType(ContentType.JSON)
+                .body(credentialLoginUser())
+                .when().log().all()
+                .post("/login");
+        idUser.then().log().all();
+        return idUser.jsonPath().getString("user.id");
+    }
+
     public void confirmEmail() {
         RestAssured.given()
                 .baseUri(baseURI)
-                .headers("Authorization", "Bearer " + extractTokenUser())
+                .headers("Authorization","Bearer " + extractTokenUser())
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/confirm")
                 .then().log().all();
     }
-
     public void refresh() {
-
-        System.out.println("токен тута" + extractTokenUser());
-        RestAssured.given()
-                .baseUri(baseURI)
-                .header("Authorization", "Bearer " + extractTokenUser())
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/refresh-tokens")
-                .then().log().all()
-                .extract().statusCode();
-
-        //System.out.println( "новый токен тута"+jsonPath.getString("accessToken"));
-
-    }
-
-    public void refresh1() {
-// Получаем токен один раз, чтобы не делать лишний запрос
         try {
             String token = extractTokenUser();
             System.out.println("Токен здесь: " + token);
 
-            // Выполняем запрос на обновление токенов
             Response refreshResponse = RestAssured.given()
                     .baseUri(baseURI)
-                    .auth().oauth2(token)
+                    .headers("Authorization","Bearer " + extractTokenUser())
                     .contentType(ContentType.JSON)
                     .when()
                     .get("/refresh-tokens");
             refreshResponse.then().log().all();
 
-            // Если нужно извлечь новый токен из ответа
             String newAccessToken = refreshResponse.jsonPath().getString("accessToken");
             System.out.println("Новый токен: " + newAccessToken);
         } catch (Exception e) {

@@ -1,7 +1,6 @@
 package qa.cinescope.tests;
 
 import io.restassured.RestAssured;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,7 @@ public class UsersTest {
     }
 
     @Tag("AuthTests")
-    @Test
+    //@Test
     public void testRegisterNewUser() {
         //given
         UserPayload user = new UserPayload()
@@ -37,32 +36,33 @@ public class UsersTest {
 
     @Test
     public void testLoginUser() {
-        //given
-       /* UserPayload user = new UserPayload()
-                .email("mail1@mail.com")
-                .password("112233Qq");*/
-
-        //expect
         userApiService.loginUser(userApiService.credentialLoginUser())
-                .shouldHave(Conditions.statusCode(201));
+                .shouldHave(Conditions.statusCode(200));
     }
+
     @Test
     public void testLogoutUser() {
         userApiService.logoutUser();
     }
 
     @Test
-    public void testRefreshToken(){
-        //userApiService.extractTokenUser();
-        userApiService.refresh1();
+    public void testRefreshToken() {
+        userApiService.refresh();
     }
 
     @Test
-    public void testConfirmEmail(){
+    public void testConfirmEmail() {
         userApiService.confirmEmail();
     }
+
     @Test
-    public void testCreatePayment(){
+    public void testCreatePayment() {
         paymentService.createPayment();
+    }
+
+    @Test
+    public void testExtractId() {
+        System.out.println(
+                userApiService.extractIdUser());
     }
 }

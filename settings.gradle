@@ -1,3 +1,3 @@
 rootProject.name = 'cinesc'
-include 'api-test'
+include("api-test", "ui-test")
 

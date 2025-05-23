@@ -1,17 +1,16 @@
 package qa.cinescope.api.payloads;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import javax.annotation.processing.Generated;
-
 
 @Getter
 @Setter
 @Accessors(fluent = true)
-@Generated("com.robohorse.robopojogenerator")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserPayload {
 
     @JsonProperty("email")

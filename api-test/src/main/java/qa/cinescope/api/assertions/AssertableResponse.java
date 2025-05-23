@@ -11,16 +11,13 @@ import qa.cinescope.api.conditions.Condition;
 public class AssertableResponse {
     private final Response response;
 
-    public AssertableResponse shouldHave(Condition condition){
-        log.info("About to check condition{}",condition);
+    public AssertableResponse shouldHave(Condition condition) {
+        log.info("About to check condition{}", condition);
         condition.check(response);
         return this;
     }
 
-    public Headers headers(){
+    public Headers headers() {
         return response.getHeaders();
     }
-
-
-
 }

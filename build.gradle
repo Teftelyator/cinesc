@@ -4,15 +4,16 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath "io.freefair.gradle:lombok-plugin:8.6"
+       // classpath "io.freefair.gradle:lombok-plugin:8.6"
+
     }
 }
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'io.freefair.lombok'
+    //apply plugin: 'io.freefair.lombok'
     repositories {
         mavenCentral()
     }
-dependencies {
-}
+    dependencies {
+    }
 }
