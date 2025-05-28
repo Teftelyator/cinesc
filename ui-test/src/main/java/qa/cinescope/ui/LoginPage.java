@@ -8,14 +8,17 @@ public class LoginPage {
     private final String submit_button = "[data-qa-id = 'login_submit_button']";
 
     public void enterEmail(String mail) {
-        $(email).val(mail);
+        $(email)
+                .val(mail);
     }
 
-    public void enterPass(String pass){
-        $(password).val(pass);
+    public void enterPass(String pass) {
+        $(password)
+                .val(pass);
     }
 
-    public void clickSubmitButton(){
-        $(submit_button).click();
+    public void clickSubmitButton() {
+        $(submit_button)
+                .click();
     }
 }
