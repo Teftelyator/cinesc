@@ -14,21 +14,13 @@ public class BasePage {
                 .click();
     }
 
-
     public String selectCardMovie(String movieId) {
-        String MovieCardGenerator = "movie_more_" + movieId;
-        String xpathMovieCard = "[data-qa-id = " + "'" + MovieCardGenerator + "'";
-        return xpathMovieCard;
+        String movieCard = "[href='/movies/" + movieId + "']";
+        return movieCard;
     }
 
     public void clickMoreMovie(String movieId) {
         $(selectCardMovie(movieId))
-                .click();
-    }
-
-    public void clickBuyTicket() {
-        $x("//*[@id='root']/div[1]/main/section/div[1]/div[2]/button")
-                .shouldBe(visible)
                 .click();
     }
 
@@ -39,5 +31,4 @@ public class BasePage {
     public String getProfile_page_button() {
         return profile_page_button;
     }
-
 }
