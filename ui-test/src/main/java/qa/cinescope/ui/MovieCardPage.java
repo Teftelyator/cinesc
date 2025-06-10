@@ -2,15 +2,16 @@ package qa.cinescope.ui;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Selenide.*;
 
 public class MovieCardPage {
     private String buyTicketButton = "//button[contains(., 'Купить билет')]";
     private String reviewField = "[data-qa-id= 'movie_review_input']";
-    private String movieRatingSelect = "[data-qa-id= 'movie_rating_select']";
+    private String movieRatingSelect = "button[role='combobox'][aria-controls^='radix-']";
     private String movieReviewSubmitButton = "[data-qa-id= 'movie_review_submit_button']";
-    private String reviewerName = "[class='text-xl w-fit']";
+    private String reviewerName = "//*[@class='text-xl w-fit']";
+    private String select = "div[role='option']";
+
 
     public void clickBuyTicket() {
         $x(buyTicketButton)
@@ -20,16 +21,16 @@ public class MovieCardPage {
 
     public void writeReview() {
         $(reviewField).val("Это отзыв");
-        //$(movieRatingSelect).click();
-        //$(movieRatingSelect).selectOptionByValue("4");
+        $(movieRatingSelect).shouldBe(visible).click();
+        $$(select)
+                .findBy(text("4"))
+                .click();
         $(movieReviewSubmitButton).click();
     }
 
-    public void getReviewerName(){
-        $x("//*[@class='text-xl w-fit']")
-                .shouldBe(visible)
-                .shouldHave(text("Vasya")) // если нужно проверить текст
-                .click();
+    public String getReviewerName() {
+        return $x(reviewerName)
+                .shouldBe(visible).getText();
     }
 
 }

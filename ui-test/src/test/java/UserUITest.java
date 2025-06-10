@@ -1,30 +1,23 @@
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import org.junit.jupiter.api.Test;
-import qa.cinescope.api.services.auth.UserApiService;
 import qa.cinescope.ui.BasePage;
-import qa.cinescope.ui.LoginPage;
 import qa.cinescope.ui.MovieCardPage;
 import qa.cinescope.ui.PaymentPage;
 import qa.cinescope.ui.services.UserService;
 
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.sleep;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static qa.cinescope.ui.constants.BASE_URL;
+import static qa.cinescope.ui.constants.VALID_NAME;
 
 
 public class UserUITest {
 
     UserService userService = new UserService();
     BasePage basePage = new BasePage();
-    UserApiService userApiService = new UserApiService();
-    LoginPage loginPage = new LoginPage();
     MovieCardPage movieCardPage = new MovieCardPage();
     PaymentPage paymentPage = new PaymentPage();
-    @Test
-    public void openPage() {
-        userApiService.extractIdUser();
-        Selenide.sleep(3000);
-    }
 
     @Test
     public void testLogin() {
@@ -36,16 +29,22 @@ public class UserUITest {
     @Test
     public void testBuyTicket() {
         userService.loginUser();
-        basePage.clickMoreMovie("1176");
+        basePage.clickMoreMovie();
         movieCardPage.clickBuyTicket();
-        //paymentPage.inputValidDataCard();
-        Selenide.sleep(3000);
+        paymentPage.inputValidDataCard();
+        paymentPage.clickSubmitButton();
+        paymentPage.clickMainPageButton();
+        String currentURL = WebDriverRunner
+                .getWebDriver()
+                .getCurrentUrl();
+        assertEquals(BASE_URL, currentURL);
     }
+
     @Test
     public void testWriteReview() {
         userService.loginUser();
-        basePage.clickMoreMovie("1176");
+        basePage.clickMoreMovie();
         movieCardPage.writeReview();
-        movieCardPage.getReviewerName();
+        assertEquals(movieCardPage.getReviewerName(), VALID_NAME);
     }
 }
