@@ -1,0 +1,22 @@
+version: '3'
+services:
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    ports:
+      - "4444:4444"
+    volumes:
+      - "//var/run/docker.sock:/var/run/docker.sock"  # Для Windows/WSL2
+      - "./config/:/etc/selenoid/"  # Критично! Подключаем папку config
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=./video
+    restart: unless-stopped
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui:latest-release
+    ports:
+      - "8080:8080"
+    environment:
+      - SELENOID_URL = http://host.docker.internal:4444
+
+    depends_on:
+      - selenoid

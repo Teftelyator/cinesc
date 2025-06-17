@@ -1,0 +1,32 @@
+{
+  "chrome": {
+    "default": "latest",
+    "versions": {
+      "latest": {
+        "image": "selenoid/chrome:latest",
+        "port": "4444",
+        "path": "/",
+        "env": ["LANG=ru_RU.UTF-8"],
+        "selenoid:options": {
+          "enableVNC": true,
+          "enableLog": true,
+          "enableVideo": true
+        }
+      }
+    }
+  },
+  "firefox": {
+    "default": "latest",
+    "versions": {
+      "latest": {
+        "image": "selenoid/firefox:latest",
+        "port": "4444",
+        "path": "/",
+        "selenoid:options": {
+          "enableVNC": true,
+          "enableLog": true
+        }
+      }
+    }
+  }
+}
