@@ -23,7 +23,7 @@ public class UserApiService extends ApiService {
                 .post("/login"));
     }
 
-    public UserPayload credentialLoginUser(){
+    public UserPayload credentialLoginUser() {
         UserPayload user = new UserPayload()
                 .fullName("vasya")//(RandomStringUtils.randomAlphanumeric(6))
                 .email("mail1@mail.com")
@@ -50,7 +50,7 @@ public class UserApiService extends ApiService {
         return response.jsonPath().getString("accessToken");
     }
 
-    public String extractIdUser(){
+    public String extractIdUser() {
         Response idUser = RestAssured.given()
                 .baseUri(baseURI)
                 .contentType(ContentType.JSON)
@@ -64,12 +64,13 @@ public class UserApiService extends ApiService {
     public void confirmEmail() {
         RestAssured.given()
                 .baseUri(baseURI)
-                .headers("Authorization","Bearer " + extractTokenUser())
+                .headers("Authorization", "Bearer " + extractTokenUser())
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/confirm")
                 .then().log().all();
     }
+
     public void refresh() {
         try {
             String token = extractTokenUser();
@@ -77,7 +78,7 @@ public class UserApiService extends ApiService {
 
             Response refreshResponse = RestAssured.given()
                     .baseUri(baseURI)
-                    .headers("Authorization","Bearer " + extractTokenUser())
+                    .headers("Authorization", "Bearer " + extractTokenUser())
                     .contentType(ContentType.JSON)
                     .when()
                     .get("/refresh-tokens");

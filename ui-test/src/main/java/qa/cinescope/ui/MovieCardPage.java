@@ -1,8 +1,11 @@
 package qa.cinescope.ui;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
+import com.codeborne.selenide.SelenideElement;
+import qa.cinescope.api.conditions.Condition;
+
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
+import static qa.cinescope.ui.constants.VALID_NAME;
 
 public class MovieCardPage {
     private String buyTicketButton = "//button[contains(., 'Купить билет')]";
@@ -28,9 +31,13 @@ public class MovieCardPage {
         $(movieReviewSubmitButton).click();
     }
 
-    public String getReviewerName() {
-        return $x(reviewerName)
-                .shouldBe(visible).getText();
+    public SelenideElement getReviewerNameEl(){
+        return $$x(reviewerName)
+                .findBy(exactText(VALID_NAME));
     }
 
+    public String getReviewerName() {
+        return getReviewerNameEl()
+                .shouldBe(visible).getText();
+    }
 }

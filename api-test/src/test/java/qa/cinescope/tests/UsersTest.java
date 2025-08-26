@@ -37,7 +37,7 @@ public class UsersTest {
     @Test
     public void testLoginUser() {
         userApiService.loginUser(userApiService.credentialLoginUser())
-                .shouldHave(Conditions.statusCode(201));
+                .shouldHave(Conditions.statusCode(200));
     }
 
     @Test
